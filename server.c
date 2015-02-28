@@ -8,11 +8,14 @@
 
 
 #define SERVER_PORT 2983 
-#define MAX_PENDING 5
+#define MAX_PENDING 1
+#define BUFSIZE 256
 
 int main() {
 	struct sockaddr_in sin;
   unsigned int s, new_s, len;
+	char buf[BUFSIZE];
+
 
 	//Address Data Structure
 	bzero(&sin, sizeof(sin));
@@ -42,7 +45,9 @@ int main() {
 			exit(EXIT_FAILURE);	
 		}
 		
-		//Intercept Sigterm Here
+		if ((bytes = recv(new_s, buf, BUFSIZE-1, 0)) == -1) {
+			perror("Error while receiving data");
+			exit(EXIT_FAILURE);
 		}
 	}
 }
