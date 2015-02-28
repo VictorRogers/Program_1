@@ -7,6 +7,8 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
+#define PORT 2983
+
 int main(int argc, char *argv[]) {
 	struct sockaddr_in sin;
 	int s, bytes;
@@ -21,7 +23,7 @@ int main(int argc, char *argv[]) {
 
 	bzero(&sin, sizeof(sin));
 	sin.sin_family = AF_INET;
-	sin.sin_port = htons(1113);
+	sin.sin_port = htons);
 	
 	if (argc > 1) {
 		host = argv[1];
