@@ -29,12 +29,12 @@ int main(int argc, char *argv[]) {
 		host = argv[1];
 	} else {
 		perror("Error: Please enter a hostname as the second argument");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 
 	if ((hent = gethostbyname(host)) == NULL) {
 			herror(host);
-			exit(EXIT_FAILURE);
+			exit(1);
 	}
 
 	bcopy(hent->h_addr_list[0], &sin.sin_addr, hent->h_length);

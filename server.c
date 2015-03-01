@@ -23,6 +23,7 @@ int main() {
 	char status300[] = "300Doughnut.";
 	char status400[] = "400Doughnut who?";
 	char status500[] = "500Doughnut ask, it is a secret.";
+	char status600[] = "600Errors aren't funny.";
 
 	//Address Data Structure
 	bzero(&sin, sizeof(sin));
@@ -51,16 +52,20 @@ int main() {
 			perror("Error while accepting the connection");
 			exit(1);	
 		}
-
-		while(bytes_recv = recv(new_s, buf, BUFSIZE-1, 0)) {
+		
+		//This is supposed to be an assignment - Ignore warning
+		while (bytes_recv = recv(new_s, buf, sizeof(buf), 0)) {
+			
 			buf[bytes_recv] = '\0';	
 			
-			printf("User sent: %s \n", buf);
+			printf("Received: %s \n", buf);
 
 			if (strcmp(buf, status000) == 0) { 
 				if ((bytes_sent = send(new_s, status100, strlen(status100), 0)) == -1) {
 					perror("Error while sending data");
 					exit(1);
+				} else {
+					printf("Sent: %s \n", status100);	
 				}
 			}	
 
@@ -68,17 +73,37 @@ int main() {
 				if ((bytes_sent = send(new_s, status300, strlen(status300), 0)) == -1) {
 					perror("Error while sending data");
 					exit(1);
+				} else {
+					printf("Sent: %s \n", status300);
 				}
 			}
 
-			else if (strcmp(buf, status400) ==0) {
+			else if (strcmp(buf, status400) == 0) {
 				if ((bytes_sent = send(new_s, status500, strlen(status500), 0)) == -1) {
 					perror("Error while sending data");
 					exit(1);
 				} else {
+					printf("Sent: %s \n", status500);
 					close(new_s);
+					exit(0);
 				}
 			}
-		}
+
+			else {
+				if ((bytes_sent = send(new_s, status600, strlen(status600), 0)) == -1) {
+					perror("Error while sending error message");
+					exit(1);
+				} else {
+					printf("Sent: %s \n", status600);
+				}
+			}
+	  }	
+	}
+
+	if ((bytes_sent = send(new_s, status600, strlen(status600), 0)) = -1) {
+		perror("Error occurred while sending error message to client");
+		exit(1);
+	} else {
+		printf("Sent: %s \n", status600);
 	}
 }
