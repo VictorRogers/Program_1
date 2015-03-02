@@ -81,8 +81,8 @@ int main() {
 
 	//Open Socket ================================================================
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-	perror("Error while creating socket");
-	exit(1);	
+		perror("Error while creating socket");
+		exit(1);	
 	}
 	//============================================================================
 
