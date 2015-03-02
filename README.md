@@ -11,6 +11,7 @@ described in the instruction document for the CS360 Program 1
 assignment. The client is incomplete at this point in time.
 
 **Make instructions**
+* make all - builds the server and client binaries
 * make server - builds the server binary
 * make client - builds the client binary
 * make clean - removes binary files
