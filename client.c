@@ -7,6 +7,8 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
+//NOTE: THIS CLIENT IS NOT COMPLETE
+
 #define PORT 2983
 
 int main(int argc, char *argv[]) {
