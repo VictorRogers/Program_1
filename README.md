@@ -1,5 +1,7 @@
 **Programmer:** Victor Rogers
+
 **Course:** CS360
+
 **Assignment:** Program 1
 
 **Note:** Client is incomplete at this point in time
