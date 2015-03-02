@@ -1,7 +1,15 @@
-#CS 360
-#Victor Rogers
-#Program_1
+###Programmer: Victor Rogers
+###Course: CS360
+###Assignment: Program 1
 
-make server - builds the server
-make client - builds the client
-make clean - clears the executables from the directory
+####Note: Client is incomplete at this point in time
+
+####Make instructions -
+* make server - builds the server binary
+* make client - builds the client binary
+* make clean - removes binary files
+
+####Testing instruction -
+I have tested the client using the following netcat commands
+* 
+
