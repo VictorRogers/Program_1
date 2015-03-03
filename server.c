@@ -34,9 +34,9 @@ int main() {
 
 
 	struct sockaddr_in sin;
-  unsigned int s, new_s, len;
-  int bytes_recv, bytes_sent;
-  char buf[BUFSIZE];
+	unsigned int s, new_s, len;
+	int bytes_recv, bytes_sent;
+	char buf[BUFSIZE];
 	
 	//--Status Validation Initialization--
 	//CStrings Status' are used for client request validation and server responses
