@@ -108,7 +108,7 @@ int main() {
 		//NOTE: Ignore warning - This assignment is on purpose 
 		while (bytes_recv = recv(new_s, buf, sizeof(buf), 0)) {
 			buf[bytes_recv] = '\0';	
-			printf("Received: %s \n", buf);
+			printf("Received: %.3s %.*s\n", buf, 50, buf + 3);
 			
 			//Validate that the client request is equivalent to Status 000
 			if (strcmp(buf, status000) == 0) { 
@@ -117,7 +117,7 @@ int main() {
 					perror("Error while sending data");
 					exit(1);
 				} else {
-					printf("Sent: %s \n", status100);	
+					printf("Sent: %.3s %.*s\n", status100, 50, status100 + 3);	
 				}
 			}
 
@@ -128,7 +128,7 @@ int main() {
 					perror("Error while sending data");
 					exit(1);
 			        } else {
-					printf("Sent: %s \n", status300);
+					printf("Sent: %.3s %.*s\n", status300, 50, status300 + 3);
 				}
 			}
 
@@ -139,7 +139,7 @@ int main() {
 					perror("Error while sending data");
 					exit(1);
 				} else { //Close Socket and Shut down server
-					printf("Sent: %s \n", status500);
+					printf("Sent: %.3s %.*s\n", status500, 50, status500 + 3);
 					close(new_s);
 					exit(0);
 				}
@@ -151,7 +151,7 @@ int main() {
 					perror("Error while sending error message");
 					exit(1);
 				} else {
-					printf("Sent: %s \n", status600);
+					printf("Sent: %.3s %.*s\n", status600, 50, status600 + 3);
 				}
 			}
 		}
@@ -160,6 +160,6 @@ int main() {
 		perror("Error occurred while sending error message to client");
 		exit(1);
 	} else {
-		printf("Sent: %s \n", status600);
+		printf("Sent: %.3s %.*s\n", status600, 50, status600 + 3);
 	}
 }
