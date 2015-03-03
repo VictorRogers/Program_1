@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,13 +24,20 @@
 //		server without a client.
 //==============================================================================
 
+void SIGHandler (int s); 
 
 int main() {
-  struct sockaddr_in sin;
+	struct sigaction SIGINTHandler;
+	SIGINTHandler.sa_handler = SIGHandler;
+	sigemptyset(&SIGINTHandler.sa_mask);
+	SIGINTHandler.sa_flags = 0;
+
+
+	struct sockaddr_in sin;
   unsigned int s, new_s, len;
   int bytes_recv, bytes_sent;
   char buf[BUFSIZE];
-
+	
 	//--Status Validation Initialization--
 	//CStrings Status' are used for client request validation and server responses
 
@@ -68,7 +76,7 @@ int main() {
 	//============================================================================
 
 	//Server Response - Status 600 Init ==========================================
-	char status600[] = "600Errors aren't funny";
+	const char status600[] = "600Errors aren't funny";
 	//============================================================================
 
 
@@ -97,7 +105,7 @@ int main() {
 	listen(s, MAX_PENDING);
 	//============================================================================
 
-	while(1) {
+	while(!sigaction(SIGINT, &SIGINTHandler, NULL)) {
 		len = sizeof(sin);
 
 		if ((new_s = accept(s, (struct sockaddr *)&sin, &len)) < 0) {
@@ -163,3 +171,8 @@ int main() {
 		printf("Sent: %.3s %.*s\n", status600, 50, status600 + 3);
 	}
 }
+
+void SIGHandler (int s) {
+	printf("\nCaught signal: %d\nShutting down server.\n", s);
+	exit(1);
+};
