@@ -39,13 +39,11 @@ int main(int argc, char *argv[]) {
 	
 	//Client Request - Status 200 Init ===========================================
 	const char status200[] = "200who's there";
+	//============================================================================	
+	//Client Request - Status 400 Init ===========================================
+	char status400[50];
 	//============================================================================
 	
-	//Server Response - Status 600 Validation
-	const char status600[] = "Errors aren't funny";
-	//============================================================================
-	
-
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
 		perror("Error while creating socket");
 		exit(EXIT_FAILURE);	
@@ -58,7 +56,7 @@ int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		host = argv[1];
 	} else {
-		perror("Error: Please enter a hostname as the second argument");
+		perror("Please enter a hostname as the second argument");
 		exit(1);
 	}
 
@@ -81,11 +79,33 @@ int main(int argc, char *argv[]) {
 	} else {
 		printf("Sent: %.3s %.*s\n", status000, 50, status000 + 3);
 	}
-
+	
+	//Note: Ignore warning - This assignment is on purpose
 	while (bytes_recv = recv(s, buf, sizeof(buf), 0)) {
 		buf[bytes_recv] = '\0';
 		printf("Received: %.3s %.*s\n", buf, 50, buf + 3);
 		
+		//Validate that the server response is equivalent to Status 100
+		if (strcmp(buf, status100) == 0) {
+			//Respond with Status 200
+			if ((bytes_sent = send(s, status200, strlen(status200), 0)) == -1) {
+				perror("Error while sending data");
+				exit(1);
+			} else {
+				printf("Sent: %.3s %.*s\n", status200, 50, status200 + 3);
+			}
+		}
+		
+		if (strncmp(buf, "300", 3) == 0) {
+			//Respond with status 400
+			snprintf(status400, 50, "400%s who", buf + 3);
+			if ((bytes_sent = send(s, status400, strlen(status400), 0)) == -1) {
+				perror("Error while sending data");
+				exit(1);
+			} else {
+				printf("Sent: %.3s %.*s\n", status400, 50, status400 + 3);
+			}
+		}
 	}
 		
 	close(s);
