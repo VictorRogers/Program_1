@@ -15,8 +15,8 @@
 //Assignment: Program 1 (Client)
 //=============================================================================
 //Description: This is a client that communicates with a server using the
-//							"Knock Knock Protocol" as described in the instruction document
-//							for the CS360 Program 1 assignment
+//		"Knock Knock Protocol" as described in the instruction document
+//		for the CS360 Program 1 assignment
 //=============================================================================
 
 int main(int argc, char *argv[]) {
@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
 	char status400[50];
 	//============================================================================
 	
+	//Opening socket
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
 		perror("Error while creating socket");
 		exit(EXIT_FAILURE);	
@@ -66,13 +67,15 @@ int main(int argc, char *argv[]) {
 	}
 
 	bcopy(hent->h_addr_list[0], &sin.sin_addr, hent->h_length);
-
+	
+	//Connecting to host
 	if (connect(s, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
 		perror("Error while attempting to connect");
 		exit(EXIT_FAILURE);
 	}	else
 			printf("Connected to %s\n", host);
-
+	
+	//Sending joke request
 	if ((bytes_sent = send(s, status000, strlen(status000), 0)) == -1) {
 		perror("Error while sending data");
 		exit(1);
@@ -96,6 +99,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		
+		//Validate that the server response code is equivalent to Status 300
 		if (strncmp(buf, "300", 3) == 0) {
 			//Respond with status 400
 			snprintf(status400, 50, "400%s who", buf + 3);
